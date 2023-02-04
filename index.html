@@ -15,11 +15,55 @@
         }
         .inter-font {
             font-family: 'Inter', sans-serif;
+        } 
+
+        /* New style */
+
+        .flip-box {
+            background-color: transparent;
+            width: 100vw;
+            height: 100vh;
+            perspective: 1000px;
+            /* display:inline-block; */
         }
+
+        .flip-box-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        } 
+        .flip-box-front, .flip-box-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-box-front {
+            background-color: #bbb;
+            color: black;
+        }
+
+        .flip-box-back {
+            background-color: #555;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .myAnim {
+            transform: rotateY(180deg);
+            /* transition: transform 0.8s; */
+        }
+
     </style>
 </head>
     <body class=" w-full overflow-hidden h-screen  " >
-        <nav class=" w-full items-center justify-between px-4 lg:px-10 flex flex-row py-5 text-[#090909]" >
+        <nav class=" w-full items-center fixed top-0 inset-x-0 z-20 justify-between px-4 lg:px-10 flex flex-row py-5 text-[#090909]" >
             <a href="index.html"  class=" text-xl lg:text-3xl font-bold " >Sticky Blobs</a>
             <div class=" flex items-center text-[#CACDD2] " >
                 <button class=" bg-[#090909] lg:w-[48px] w-[30px] h-[27px] rounded-full lg:h-[45px] flex justify-center items-center " >
@@ -33,6 +77,49 @@
                 </a>
             </div>
         </nav>
-        <img src="./img/Policenew2.png" class=" h-screen fixed inset-0 -z-10 object-cover w-full " />
+        
+
+
+<div class="flip-box">
+    <div class="flip-box-inner">
+      <div class="flip-box-front">
+        <img src="./img/Police.png" class=" h-screen object-cover w-full " /> 
+      </div>
+      <div class="flip-box-back">
+        <img src="./img/Policenew2.png" class=" h-screen object-cover w-full " />
+      </div>
+    </div>
+  </div> 
     </body>
+    <script> 
+        var elems = document.getElementsByClassName('flip-box-inner');
+        var totalSecond = 0;
+        var myTimer;
+        function RotationCard() {
+            totalSecond = totalSecond + 1;
+            for (var i = 0; i < elems.length; i++) {
+            if(totalSecond == 1)
+            {
+                if(i%2 == 0)
+                {
+                    if(!elems[i].classList.contains("myAnim"))
+                        elems[i].classList.add("myAnim");
+                    else
+                        elems[i].classList.remove("myAnim");
+                }
+            }
+            else
+            {
+                if(!elems[i].classList.contains("myAnim"))
+                    elems[i].classList.add("myAnim");
+                else
+                    elems[i].classList.remove("myAnim");
+            }
+        }
+                
+            myTimer = setTimeout(RotationCard, 3000);
+        
+        }
+        RotationCard() 
+    </script>
 </html>
