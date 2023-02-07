@@ -1,8 +1,6 @@
 <script lang="ts">
-import { BASE_BSC_SCAN_URL } from "@/config";
 import { Options } from "vue-class-component";
 import CommonMixin from "@/helpers/mixins/CommonMixin";
-import useCatchTxError, { TxResponse } from "@/helpers/useCatchTxError";
 import ConnectWalletButton from "@/components/Buttons/ConnectWalletButton.vue";
 
 @Options({
@@ -12,37 +10,53 @@ import ConnectWalletButton from "@/components/Buttons/ConnectWalletButton.vue";
 })
 export default class Join extends CommonMixin {
   mounted() {
-    function myFunction(first, second, third, four) {
-      document.getElementById(first).style.display = 'none'
-      document.getElementById(second).style.display = 'block'
-      var firstelement = document.getElementById(third);
-      firstelement.classList.remove("active");
-      firstelement.classList.add("inactive");
-      var secondelement = document.getElementById(four);
-      secondelement.classList.remove("inactive");
-      secondelement.classList.add("active");
-      if (second === 'btn4') {
-        document.getElementById('category').style.display = 'grid'
-      }
-    }
-
-    function finish() {
-      var firstcontainer = document.getElementById("first");
-      firstcontainer.classList.remove("first");
-      firstcontainer.classList.add("second");
-      var secondcontainer = document.getElementById("second");
-      secondcontainer.classList.remove("second");
-      secondcontainer.classList.add("first");
-    }
     var header = document.getElementById("category");
     var btns = header.getElementsByClassName("btn");
     for (var i = 0; i < btns.length; i++) {
+      const positionIndex = i;
       btns[i].addEventListener("click", function () {
         var current = document.getElementsByClassName("activebtn");
         current[0].className = current[0].className.replace(" activebtn", "");
-        // this.className += " activebtn";
+        btns[positionIndex].className += " activebtn";
       });
     }
+  }
+
+  shareOnTwitter() {
+    this.myFunction('btn2', 'btn4', 'tabtwo', 'tabfour');
+
+    const url = 'http://twitter.com/share?text=Yes,%20I\'m%20curious.%20I\'m%20verifying%20my%20identity%20for%20@stickyblobworld%20&url=https%3A%2F%2Fbeepboopbotz.io%2Fbeeplist&hashtags=NFTs%2CStickyblobworld'
+    window.open(url, '_blank');
+  }
+
+  showIfActive(isAuthenticated: boolean){
+    if(isAuthenticated) {
+      return 'show-button';
+    }
+    return '';
+  }
+
+  myFunction(first, second, third, four) {
+    document.getElementById(first).style.display = 'none'
+    document.getElementById(second).style.display = 'block'
+    var firstelement = document.getElementById(third);
+    firstelement.classList.remove("active");
+    firstelement.classList.add("inactive");
+    var secondelement = document.getElementById(four);
+    secondelement.classList.remove("inactive");
+    secondelement.classList.add("active");
+    if (second === 'btn4') {
+      document.getElementById('category').style.display = 'grid'
+    }
+  }
+
+  finish() {
+    var firstcontainer = document.getElementById("first");
+    firstcontainer.classList.remove("first");
+    firstcontainer.classList.add("second");
+    var secondcontainer = document.getElementById("second");
+    secondcontainer.classList.remove("second");
+    secondcontainer.classList.add("first");
   }
 }
 </script>
@@ -71,18 +85,15 @@ export default class Join extends CommonMixin {
       class=" first lg:w-auto w-full mt-10 px-0 lg:px-24 bg-[#E1E1E199] border border-[#F0F0F080] bg-blur-[10px] text-[#252B41] rounded-[30px] py-8 items-center ">
       <p class=" text-2xl font-medium ">BLOB LIST</p>
       <p class=" text-sm font-semibold ">Complete these 4 steps</p>
-      <div class=" w-fit grid grid-cols-4 gap-5 my-5 mx-auto ">
-        <div id="tabone" class=" w-[60px] h-[60px] rounded-full active ">
+      <div class=" w-fit grid grid-cols-3 gap-5 my-5 mx-auto ">
+        <div id="tabone" class=" w-[60px] h-[60px] rounded-full" :class="{ 'active': !web3.user.active, 'inactive': web3.user.active }">
           1
         </div>
-        <div id="tabtwo" class=" w-[60px] h-[60px] rounded-full inactive ">
+        <div id="tabtwo" class=" w-[60px] h-[60px] rounded-full" :class="{ 'active': web3.user.active, 'inactive': !web3.user.active }">
           2
         </div>
-        <div id="tabthree" class=" w-[60px] h-[60px] rounded-full inactive">
-          3
-        </div>
         <div id="tabfour" class="  w-[60px] h-[60px] rounded-full inactive">
-          4
+          3
         </div>
       </div>
       <div id="category" class=" w-fit grid grid-cols-2 gap-4 mb-4 mx-auto ">
@@ -97,21 +108,18 @@ export default class Join extends CommonMixin {
         <button class=" w-[130px] rounded-[100px] h-[34px] btn ">Pirate</button>
         <button class=" w-[130px] rounded-[100px] h-[34px] btn ">Stoned</button>
       </div>
-      <button id="btn1" onclick="myFunction('btn1','btn2', 'tabone', 'tabtwo')"
-        class=" bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4 ">Connect Wallet</button>
-      <button id="btn2" onclick="myFunction('btn2','btn3', 'tabtwo', 'tabthree')"
-        class=" bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4 ">Connect Twitter</button>
-      <button id="btn3" onclick="myFunction('btn3','btn4', 'tabthree', 'tabfour')"
-        class=" bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4 ">Share On Twitter</button>
-      <button id="btn4" onclick="finish()"
-        class=" bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4 ">Select
+      <ConnectWalletButton />
+      <button id="btn2" @click="shareOnTwitter()"
+        class="bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4 hidden-btn" :class="showIfActive(web3.user.active)">Share On Twitter</button>
+      <button id="btn4" @click="finish()"
+        class="bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4">Select
         Your Blob Faction</button>
     </div>
     <div id="second"
       class=" second lg:w-auto w-full mt-10 px-24 bg-[#E1E1E199] border border-[#F0F0F080] bg-blur-[10px] text-[#252B41] rounded-[30px] py-8 items-center ">
       <p class=" text-2xl font-medium ">BLOB LIST</p>
       <p class=" text-sm font-semibold ">You have completed all steps</p>
-      <div class=" w-fit grid grid-cols-4 gap-5 my-5 mx-auto ">
+      <div class=" w-fit grid grid-cols-3 gap-5 my-5 mx-auto ">
         <div id="tabone" class=" w-[60px] h-[60px] rounded-full inactive ">
           <svg class=" w-[35px] " viewBox="0 0 53 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -126,15 +134,8 @@ export default class Join extends CommonMixin {
               fill="#252B41" />
           </svg>
         </div>
-        <div id="tabthree" class=" w-[60px] h-[60px] rounded-full inactive">
-          <svg class=" w-[35px] " viewBox="0 0 53 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M16.9933 29.5248L45.0381 1.31487C45.9096 0.438288 47.0187 0 48.3655 0C49.7123 0 50.8214 0.438288 51.6928 1.31487C52.5643 2.19145 53 3.30709 53 4.6618C53 6.01652 52.5643 7.13217 51.6928 8.00875L20.3206 39.5656C19.37 40.5219 18.2608 41 16.9933 41C15.7257 41 14.6166 40.5219 13.6659 39.5656L1.30717 27.1341C0.435723 26.2575 0 25.1419 0 23.7872C0 22.4325 0.435723 21.3168 1.30717 20.4402C2.17862 19.5637 3.28774 19.1254 4.63453 19.1254C5.98131 19.1254 7.09043 19.5637 7.96188 20.4402L16.9933 29.5248Z"
-              fill="#252B41" />
-          </svg>
-        </div>
         <div id="tabfour" class="  w-[60px] h-[60px] rounded-full inactive">
-          <svg class=" w-[35px] " viewBox="0 0 53 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-[35px] " viewBox="0 0 53 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M16.9933 29.5248L45.0381 1.31487C45.9096 0.438288 47.0187 0 48.3655 0C49.7123 0 50.8214 0.438288 51.6928 1.31487C52.5643 2.19145 53 3.30709 53 4.6618C53 6.01652 52.5643 7.13217 51.6928 8.00875L20.3206 39.5656C19.37 40.5219 18.2608 41 16.9933 41C15.7257 41 14.6166 40.5219 13.6659 39.5656L1.30717 27.1341C0.435723 26.2575 0 25.1419 0 23.7872C0 22.4325 0.435723 21.3168 1.30717 20.4402C2.17862 19.5637 3.28774 19.1254 4.63453 19.1254C5.98131 19.1254 7.09043 19.5637 7.96188 20.4402L16.9933 29.5248Z"
               fill="#252B41" />
@@ -142,7 +143,7 @@ export default class Join extends CommonMixin {
         </div>
       </div>
       <p class=" text-sm font-medium my-2 ">Check back later to confirm your application status</p>
-      <a href="index.html" class=" flex items-center mt-4">
+      <a href="/" class=" flex items-center mt-4">
         <svg class=" cursor-pointer " width="30" height="29" viewBox="0 0 30 29" fill="none"
           xmlns="http://www.w3.org/2000/svg">
           <path
@@ -161,12 +162,12 @@ export default class Join extends CommonMixin {
   font-family: 'Inter', sans-serif;
 }
 
-#btn1 {
+.hidden-btn {
   display: block;
 }
 
-#btn2 {
-  display: none;
+#btn1 {
+  display: block;
 }
 
 #btn3 {
@@ -235,5 +236,8 @@ export default class Join extends CommonMixin {
 
 .second {
   display: none;
+}
+.show-button {
+  display: block;
 }
 </style>
