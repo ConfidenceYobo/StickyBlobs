@@ -53,8 +53,8 @@ export interface SerializedStakingPoolState {
 }
 
 export enum ChainId {
-  MAINNET = 56,
-  TESTNET = 97,
+  MAINNET = 1,
+  TESTNET = 3,
 }
 
 export type SerializedBigNumber = string

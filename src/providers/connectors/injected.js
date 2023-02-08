@@ -1,20 +1,5 @@
 const ConnectToInjected = async (isConnectedBefore = true) => {
   let provider = null;
-  const params = [{
-    "chainId": "0x38", // 56 in decimal
-    "chainName": "Binance Smart Chain",
-    "rpcUrls": [
-      "https://bsc-dataseed.binance.org"
-    ],
-    "nativeCurrency": {
-      "name": "Binance Coin",
-      "symbol": "BNB",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://bscscan.com"
-    ]
-  }];
   if (typeof window.ethereum !== 'undefined') {
     provider = window.ethereum;
     try {

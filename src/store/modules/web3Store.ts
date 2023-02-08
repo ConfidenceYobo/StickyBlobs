@@ -74,7 +74,7 @@ const web3Store = {
         commit('setLibrary', library);
 
         if (network.chainId != CHAIN_ID) {
-          toast.add({ severity: 'error', summary: 'Unsupported Chain', detail: `Make sure you're on BSC network`, life: ALERT_LIFTIME });
+          toast.add({ severity: 'error', summary: 'Unsupported Chain', detail: `Make sure you're on Ethereum network`, life: ALERT_LIFTIME });
           return;
         }
 
@@ -94,7 +94,7 @@ const web3Store = {
           if (chainId != CHAIN_ID) {
             commit('setChainId', null)
             commit('setActive', false)
-            toast.add({ severity: 'error', summary: 'Unsupported Chain', detail: `Make sure you're on BSC network`, life: ALERT_LIFTIME });
+            toast.add({ severity: 'error', summary: 'Unsupported Chain', detail: `Make sure you're on Ethereum network`, life: ALERT_LIFTIME });
             return;
           }
           commit('setChainId', chainId)
@@ -116,7 +116,7 @@ const web3Store = {
           if (chainId != CHAIN_ID) {
             commit('setChainId', null);
             commit('setActive', false);
-            toast.add({ severity: 'error', summary: 'Unsupported Chain', detail: `Make sure you're on BSC network`, life: ALERT_LIFTIME });
+            toast.add({ severity: 'error', summary: 'Unsupported Chain', detail: `Make sure you're on Ethereum network`, life: ALERT_LIFTIME });
             return;
           }
           commit('setChainId', chainId)

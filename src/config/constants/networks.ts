@@ -1,8 +1,8 @@
 import { ChainId } from './types';
 
 const NETWORK_URLS: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: 'https://bsc-dataseed1.defibit.io',
-  [ChainId.TESTNET]: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+  [ChainId.MAINNET]: 'https://mainnet.infura.io/v3',
+  [ChainId.TESTNET]: 'https://ropsten.infura.io',
 }
 
 const PUBLIC_CHAIN_ID = parseInt(process.env.VUE_APP_PUBLIC_CHAIN_ID);

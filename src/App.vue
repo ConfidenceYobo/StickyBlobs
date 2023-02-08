@@ -45,10 +45,10 @@ export default class App extends Web3Mixins {
       package: WalletConnectProvider,
       options: {
         rpc: {
-          56: "https://bsc-dataseed.binance.org/",
+          1: "https://mainnet.infura.io/v3/",
         },
-        network: "binance",
-        chainId: 56,
+        // network: "1",
+        chainId: 1,
       },
     },
     "custom-trustwallet": {
@@ -63,35 +63,13 @@ export default class App extends Web3Mixins {
           WalletConnectProvider,
           {
             rpc: {
-              56: "https://bsc-dataseed.binance.org/",
+              1: "https://mainnet.infura.io/v3/",
             },
-            network: "binance",
-            chainId: 56,
+            // network: "1",
+            chainId: 1,
           },
           opt
         ),
-    },
-    "custom-binancechainwallet": {
-      display: {
-        logo: "/images/logos/binance.png",
-        name: "Binance Chain Wallet",
-        description: "Connect to your Binance Chain Wallet",
-      },
-      package: true,
-      connector: async () => {
-        let provider = null;
-        if (typeof window.BinanceChain !== "undefined") {
-          provider = window.BinanceChain;
-          try {
-            await provider.request({ method: "eth_requestAccounts" });
-          } catch (error) {
-            throw new Error("User Rejected");
-          }
-        } else {
-          throw new Error("No Binance Chain Wallet found");
-        }
-        return provider;
-      },
     },
   };
 
@@ -118,7 +96,7 @@ export default class App extends Web3Mixins {
 
 <template>
   <web3-modal-vue :disableInjectedProvider="true" ref="web3modal" :providerOptions="providerOptions"
-    :cacheProvider="true" network="binance" />
+    :cacheProvider="true" />
   <Toast ref="toast" group="regular" />
   <Toast position="top-right" ref="txToast">
     <template #message="slotProps">
