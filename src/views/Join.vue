@@ -163,7 +163,7 @@ export default class Join extends CommonMixin {
 }
 
 .hidden-btn {
-  display: block;
+  display: none;
 }
 
 #btn1 {
