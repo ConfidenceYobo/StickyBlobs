@@ -25,7 +25,9 @@ export default class Join extends CommonMixin {
   shareOnTwitter() {
     this.myFunction('btn2', 'btn4', 'tabtwo', 'tabfour');
 
-    const url = 'http://twitter.com/share?text=Yes,%20I\'m%20curious.%20I\'m%20verifying%20my%20identity%20for%20@stickyblobworld%20&url=https%3A%2F%2Fbeepboopbotz.io%2Fbeeplist&hashtags=NFTs%2CStickyblobworld'
+    const urlBody = encodeURI('The art is the beginning, the product is the journey, and the utility is the reward.\n\nI\'m verifying my account for the stickyblob list. @stickyblobworld\n\nWebsite: stickyblobs.com\n')
+
+    const url = 'http://twitter.com/share?text=' + urlBody +'&hashtags=Blobarmy'
     window.open(url, '_blank');
   }
 
