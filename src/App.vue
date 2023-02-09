@@ -96,7 +96,7 @@ export default class App extends Web3Mixins {
 
 <template>
   <web3-modal-vue :disableInjectedProvider="true" ref="web3modal" :providerOptions="providerOptions"
-    :cacheProvider="true" />
+    :cacheProvider="false" />
   <Toast ref="toast" group="regular" />
   <Toast position="top-right" ref="txToast">
     <template #message="slotProps">

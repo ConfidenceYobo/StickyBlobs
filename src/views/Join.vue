@@ -1,5 +1,6 @@
 <script lang="ts">
 import { Options } from "vue-class-component";
+import { repeat, invoke, get } from "lodash";
 import CommonMixin from "@/helpers/mixins/CommonMixin";
 import ConnectWalletButton from "@/components/Buttons/ConnectWalletButton.vue";
 
@@ -9,6 +10,14 @@ import ConnectWalletButton from "@/components/Buttons/ConnectWalletButton.vue";
   },
 })
 export default class Join extends CommonMixin {
+  truncAddress(address) {
+    return `${repeat("*", 4)}${invoke(
+      address,
+      "substr",
+      get(address, "length", 0) - 4
+    )}`;
+  }
+
   mounted() {
     var header = document.getElementById("category");
     var btns = header.getElementsByClassName("btn");
@@ -81,12 +90,16 @@ export default class Join extends CommonMixin {
           class=" bg-[#252B41] flex justify-center items-center font-normal ml-3 lg:ml-8 rounded-[100px] px-3 h-[30px] lg:px-12 lg:h-[45px] ">
           Check status
         </a>
+        <a href="#" v-if="user.active"
+          class=" bg-[#252B41] flex justify-center items-center font-normal ml-3 lg:ml-8 rounded-[100px] px-3 h-[30px] lg:px-12 lg:h-[45px] ">
+          {{ truncAddress(user.address) }}
+        </a>
       </div>
     </nav>
     <div id="first"
       class=" first lg:w-auto w-full mt-10 px-0 lg:px-24 bg-[#E1E1E199] border border-[#F0F0F080] bg-blur-[10px] text-[#252B41] rounded-[30px] py-8 items-center ">
       <p class=" text-2xl font-medium ">BLOB LIST</p>
-      <p class=" text-sm font-semibold ">Complete these 4 steps</p>
+      <p class=" text-sm font-semibold ">Complete these 3 steps</p>
       <div class=" w-fit grid grid-cols-3 gap-5 my-5 mx-auto ">
         <div id="tabone" class=" w-[60px] h-[60px] rounded-full" :class="{ 'active': !web3.user.active, 'inactive': web3.user.active }">
           1
@@ -114,8 +127,7 @@ export default class Join extends CommonMixin {
       <button id="btn2" @click="shareOnTwitter()"
         class="bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4 hidden-btn" :class="showIfActive(web3.user.active)">Share On Twitter</button>
       <button id="btn4" @click="finish()"
-        class="bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4">Select
-        Your Blob Faction</button>
+        class="bg-[#252B41] rounded-[100px] w-[300px] h-[50px] text-white mt-4">Submit</button>
     </div>
     <div id="second"
       class=" second lg:w-auto w-full mt-10 px-24 bg-[#E1E1E199] border border-[#F0F0F080] bg-blur-[10px] text-[#252B41] rounded-[30px] py-8 items-center ">
